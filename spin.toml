@@ -1,0 +1,20 @@
+spin_manifest_version = 2
+
+[application]
+name = "hello-message-handler"
+version = "0.1.0"
+authors = ["Anita Bendelja <bendelja.anita@gmail.com>"]
+description = "Trying out Spin framework using TinyGo compiler "
+
+[application.trigger.redis]
+address = "redis://127.0.0.1:6379"
+
+[[trigger.redis]]
+channel = "hello-messages"
+component = "hello-message-handler"
+
+[component.hello-message-handler]
+source = "main.wasm"
+allowed_outbound_hosts = []
+[component.hello-message-handler.build]
+command = "tinygo build -target=wasi -gc=leaking -no-debug -o main.wasm main.go"
